@@ -15,6 +15,8 @@ public class Patient implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String gender;
+	private String birth;	
 	private String phone;
 	private String address;
 	private String city;
@@ -24,10 +26,12 @@ public class Patient implements Serializable {
 
 	}
 
-	public Patient(Integer id, String name, String phone, String address, String city, String state) {
+	public Patient(Integer id, String name, String gender, String birth, String phone, String address, String city, String state) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.gender = gender;
+		this.birth = birth;
 		this.phone = phone;
 		this.address = address;
 		this.city = city;
@@ -48,6 +52,22 @@ public class Patient implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setDate(String birth) {
+		this.birth = birth;
 	}
 
 	public String getPhone() {

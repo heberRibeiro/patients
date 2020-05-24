@@ -43,6 +43,8 @@ public class PatientService {
 		try {
 			Patient obj = repository.getOne(id); // return a reference to the entity
 			obj.setName(patient.getName());
+			obj.setGender(patient.getGender());
+			obj.setDate(patient.getBirth());
 			obj.setPhone(patient.getPhone());
 			obj.setAddress(patient.getAddress());
 			obj.setCity(patient.getCity());
