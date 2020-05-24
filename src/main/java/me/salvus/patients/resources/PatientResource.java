@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import me.salvus.patients.domain.Patient;
-import me.salvus.patients.repositories.PatientRepository;
+import me.salvus.patients.services.PatientService;
 
 @RestController
 @RequestMapping("/api")
 public class PatientResource {
 
 	@Autowired
-	private PatientRepository repo;
+	private PatientService service;
 
 	@GetMapping(value = "/patients")
 	public ResponseEntity<List<Patient>> findAll() {
 
-		List<Patient> patients = repo.findAll();
+		List<Patient> patients = service.findAll();
 		return ResponseEntity.ok().body(patients);
 
 	}
@@ -36,7 +36,7 @@ public class PatientResource {
 	public ResponseEntity<Void> insert(@RequestBody Patient patient) {
 
 		patient.setId(null);
-		Patient obj = repo.save(patient);
+		Patient obj = service.insert(patient);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
@@ -46,7 +46,7 @@ public class PatientResource {
 	@DeleteMapping(value = "patients/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
-		repo.deleteById(id);
+		service.delete(id);
 		return ResponseEntity.noContent().build();
 
 	}
