@@ -32,6 +32,14 @@ public class PatientResource {
 
 	}
 
+	@GetMapping(value = "/patients/{id}")
+	public ResponseEntity<Patient> findById(@PathVariable Integer id) {
+
+		Patient patient = service.findById(id);
+		return ResponseEntity.ok().body(patient);
+
+	}
+
 	@PostMapping(value = "/patients")
 	public ResponseEntity<Void> insert(@RequestBody Patient patient) {
 
