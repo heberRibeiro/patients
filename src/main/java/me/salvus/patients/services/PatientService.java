@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import me.salvus.patients.domain.Patient;
@@ -19,8 +20,8 @@ public class PatientService {
 	@Autowired
 	private PatientRepository repository;
 
-	public List<Patient> findAll() {
-		return repository.findAll();
+	public List<Patient> findAll(Pageable pageable) {
+		return repository.findAll(pageable).getContent();
 	}
 
 	public Patient findById(Integer id) {

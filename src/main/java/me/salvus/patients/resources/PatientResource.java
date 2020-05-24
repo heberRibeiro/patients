@@ -4,6 +4,10 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,9 +31,16 @@ public class PatientResource {
 	private PatientService service;
 
 	@GetMapping(value = "/patients")
-	public ResponseEntity<List<Patient>> findAll() {
+	public ResponseEntity<List<Patient>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "5") int limit,
+			@RequestParam(value = "attribute", defaultValue = "id") String attribute,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 
-		List<Patient> patients = service.findAll();
+		Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, attribute));
+
+		List<Patient> patients = service.findAll(pageable);
 		return ResponseEntity.ok().body(patients);
 
 	}
@@ -51,10 +63,10 @@ public class PatientResource {
 		return ResponseEntity.created(uri).build();
 
 	}
-	
+
 	@PutMapping(value = "/patients/{id}")
 	public ResponseEntity<Patient> update(@RequestBody Patient patient, @PathVariable Integer id) {
-		
+
 		Patient obj = service.update(patient, id);
 		return ResponseEntity.ok().body(obj);
 	}
