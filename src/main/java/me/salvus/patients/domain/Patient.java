@@ -66,7 +66,7 @@ public class Patient implements Serializable {
 		return birth;
 	}
 
-	public void setDate(String birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 
